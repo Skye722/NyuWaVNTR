@@ -1,0 +1,28 @@
+#!/bin/bash
+### filtMotifForQTL
+### edit by sjzhang  -- 20230621
+###
+
+
+
+
+
+#PBS -V
+#PBS -j eo
+#PBS -N filtMotifForQTL
+#PBS -q Fat
+#PBS -l nodes=1:ppn=1
+#PBS -d /home2/sjzhang/work/VNTRv2/4.1-eMotif
+
+echo "#######-- Start time is `date +%Y/%m/%d--%H:%M`  --#######"
+work_start_time=$(date +%s)
+
+workdir=/home2/sjzhang/work/VNTRv2/4.1-eMotif
+cd $workdir
+
+/home2/sjzhang/tools/anaconda3/envs/danbingtk/bin/python filtMotForQTL.py
+
+end_time=$(date +%s)
+echo "#######-- End Time:`date +%Y/%m/%d--%H:%M`  --#######"
+
+

@@ -1,0 +1,40 @@
+#!/bin/bash
+### danbing-tk pipeline(single sample)
+### edit by sjzhang  -- 20221027
+###
+
+
+
+
+
+#PBS -V
+#PBS -j eo
+#PBS -N demo
+#PBS -q Fat
+#PBS -l nodes=1:ppn=4
+#PBS -d /home2/sjzhang/git/danbing-tk/align_pbs
+
+# Sample ID
+sample=demo
+
+### need to edit the next 1 line
+WORKDIR=/home2/sjzhang/git/danbing-tk/align_pbs
+BAMDIR=/parastor300/Projects/demo.marked.realigned.recal.bam
+
+# Log files
+C_LOGS=$WORKDIR/log_advntr_complete.lst
+U_LOGS=$WORKDIR/log_advntr_uncomplete.lst
+
+
+
+cd $WORKDIR 
+samtools fasta -n $BAMDIR |/home2/sjzhang/git/danbing-tk/bin/danbing-tk -gc 80 -ae -kf 4 1 -cth 45 -on ${sample} -k 21 -qs pan -fai /dev/stdin -p 4 |gzip > ${sample}.aln.gz
+
+#**************** Ending Check ********************
+cd $WORKDIR
+if [ -s ${sample}.tr.kmers ];then
+    echo "${sample} Complete `date +%Y/%m/%d--%H:%M`" >>$C_LOGS
+    #rm ${gatkout}.Mdup.bam
+else
+    echo "${sample} UnComplete" >>$U_LOGS
+fi

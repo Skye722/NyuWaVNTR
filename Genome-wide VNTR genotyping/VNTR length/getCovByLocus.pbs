@@ -1,0 +1,46 @@
+#!/bin/bash
+### danbing-tk pipeline(single sample)
+### edit by sjzhang  -- 20221027
+###
+
+
+
+
+
+#PBS -V
+#PBS -j eo
+#PBS -N getCov
+#PBS -q Fat
+#PBS -l nodes=1:ppn=4
+#PBS -d /home2/sjzhang/git/danbing-tk/
+
+echo Pipeline advntr Start time is `date +%Y/%m/%d--%H:%M`
+work_start_time=$(date +%s)
+
+refctrl=nonTR_TR_loci_nochr.bed
+out=/home2/sjzhang/git/danbing-tk
+
+nonTRl=ctrl_nochr.bed
+nonTRout=/home2/sjzhang/git/danbing-tk
+
+gi=0
+less /home2/sjzhang/git/danbing-tk/bam.lst|while read line; do
+    g=$(basename $line | awk -F. '{print $1}')
+    echo $g
+
+#(80518+397) TR_nonTR cov
+    samtools bedcov -G UNMAP,SECONDARY,QCFAIL,DUP $refctrl $g.sorted.bam | awk '{print $4/($3-$2)}' | tr '\n' '\t' |
+    awk -v g=$g -v gi=$gi 'BEGIN {OFS="\t"} {$1=$1; print gi, g, $0}' >> $out/$g.nonTRandTR.cov
+
+#397 nonTR cov
+    samtools bedcov -G UNMAP,SECONDARY,QCFAIL,DUP $nonTRl $g.sorted.bam | awk '{print $4/($3-$2)}' | tr '\n' '\t' |
+    awk -v g=$g -v gi=$gi 'BEGIN {OFS="\t"} {$1=$1; print gi, g, $0}' >> $nonTRout/$g.nonTR.cov
+    ((++gi))
+done 
+
+
+
+end_time=$(date +%s)
+echo "#######-- advntr End Time:`date +%Y/%m/%d--%H:%M`  --#######"
+
+

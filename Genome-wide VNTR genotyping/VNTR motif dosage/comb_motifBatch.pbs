@@ -1,0 +1,29 @@
+#!/bin/bash
+### danbing-tk motif dosage pipeline
+### edit by sjzhang  -- 20230413
+###
+
+
+
+
+
+#PBS -V
+#PBS -j eo
+#PBS -N motif_dosage
+#PBS -q Fat
+#PBS -l nodes=node25:ppn=1
+#PBS -d /home2/sjzhang/work/VNTRv2/1-motifDosage
+
+echo Sample batch in motif dosage Start time is `date +%Y/%m/%d--%H:%M`
+work_start_time=$(date +%s)
+
+cd /home2/sjzhang/work/VNTRv2/1-motifDosage
+
+python motifSamBatch_comb.py Nyu.sam*gz Nyu_motifDos.gz
+python motifSamBatch_comb.py world.sam*gz World_motifDos.gz
+
+
+end_time=$(date +%s)
+echo "#######-- Sample batch in motif dosage End Time:`date +%Y/%m/%d--%H:%M`  --#######"
+
+

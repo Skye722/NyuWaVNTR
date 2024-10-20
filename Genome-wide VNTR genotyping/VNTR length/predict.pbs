@@ -1,0 +1,21 @@
+#!/bin/bash
+### danbing-tk pipeline(single sample)
+### edit by sjzhang  -- 20221229
+###
+
+
+
+
+
+#PBS -V
+#PBS -j eo
+#PBS -N danbingtk-predict
+#PBS -q Fat
+#PBS -l nodes=1:ppn=4
+#PBS -d /home2/sjzhang/git/danbing-tk/predict/combined/jointcalling
+
+bash /home2/sjzhang/git/danbing-tk/predict/predict.sh /home2/sjzhang/git/danbing-tk/predict/combined/jointcalling /home2/sjzhang/git/danbing-tk/predict/combined/jointcalling/combine_kmers.lst /home2/sjzhang/git/danbing-tk/predict/combined/jointcalling/combine_LSB_nonTRandTR.tsv /home2/sjzhang/git/danbing-tk/predict/combined/jointcalling/combine.nonTR.cov
+
+
+
+
