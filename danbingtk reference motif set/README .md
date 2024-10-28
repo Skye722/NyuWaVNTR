@@ -1,0 +1,2 @@
+The file TR_locus.4456881_motif.tsv was downloaded from https://github.com/ChaissonLab/danbing-tk/ in March 2023.It contains specific information about the motifs used in the article "https://genome.cshlp.org/content/33/4/511" the motif composition of variable number tandem repeats impacts gene expression. And it was published on GitHub by the authors of the article when we downloaded it. 
+Here we also provide the LICENSE of danbing-tk, we share this file follow it.
